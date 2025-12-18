@@ -1,0 +1,27 @@
+[package]
+name = "fract"
+version = "0.1.0"
+edition = "2021"
+authors = ["@morphym"]
+description = "A Hyperchaotic, Quantum-Resistant, Minimalist Cryptographic Hash"
+license = "MIT"
+repository = "https://github.com/morphym/fract"
+
+[lib]
+name = "fract"
+path = "src/lib.rs"
+
+[[bin]]
+name = "fract"
+path = "src/main.rs"
+
+[dependencies]
+hex = "0.4"
+clap = { version = "4.5", features = ["derive"] }
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bench]]
+name = "fract_bench"
+harness = false
