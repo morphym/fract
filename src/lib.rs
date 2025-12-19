@@ -1,9 +1,8 @@
-//! ChaosFiber-256: A Hyperchaotic, Quantum-Resistant, Minimalist Cryptographic Hash
+//! FRACT-256: A Hyperchaotic, Quantum-Resistant, Minimalist Cryptographic Hash
 //!
 //! This implementation follows the specification in the whitepaper for FRACT,
 //! a cryptographic hash function that leverages hyperchaotic dynamical systems
 //! on finite modular lattices.
-
 
 /// Rate in bytes: 128 bits (2 × u64)
 const RATE: usize = 16;
@@ -19,9 +18,9 @@ const IV: [u64; 4] = [
     0xa54ff53a5f1d36f1,
 ];
 
-/// ChaosFiber-256 hasher state
+/// FRACT-256 hasher state
 #[derive(Clone, Debug)]
-pub struct ChaosFiber256 {
+pub struct Fract {
     /// Internal state vector (4 × u64)
     state: [u64; 4],
     /// Buffer for absorbing data
@@ -34,8 +33,8 @@ pub struct ChaosFiber256 {
     finalized: bool,
 }
 
-impl ChaosFiber256 {
-    /// Creates a new ChaosFiber-256 hasher
+impl Fract {
+    /// Creates a new Fract-256 hasher
     pub fn new() -> Self {
         Self {
             state: IV,
@@ -111,12 +110,24 @@ impl ChaosFiber256 {
     fn absorb_block(&mut self) {
         // XOR block into rate portion of state
         self.state[0] ^= u64::from_le_bytes([
-            self.buffer[0], self.buffer[1], self.buffer[2], self.buffer[3],
-            self.buffer[4], self.buffer[5], self.buffer[6], self.buffer[7],
+            self.buffer[0],
+            self.buffer[1],
+            self.buffer[2],
+            self.buffer[3],
+            self.buffer[4],
+            self.buffer[5],
+            self.buffer[6],
+            self.buffer[7],
         ]);
         self.state[1] ^= u64::from_le_bytes([
-            self.buffer[8], self.buffer[9], self.buffer[10], self.buffer[11],
-            self.buffer[12], self.buffer[13], self.buffer[14], self.buffer[15],
+            self.buffer[8],
+            self.buffer[9],
+            self.buffer[10],
+            self.buffer[11],
+            self.buffer[12],
+            self.buffer[13],
+            self.buffer[14],
+            self.buffer[15],
         ]);
 
         // Apply permutation
@@ -205,13 +216,13 @@ impl ChaosFiber256 {
     }
 }
 
-impl Default for ChaosFiber256 {
+impl Default for Fract {
     fn default() -> Self {
         Self::new()
     }
 }
 
-/// Hybrid Logistic-Tent Map (HLTM) on Z_2^64
+/// Hybrid Logistic-Tent Map  on Z_2^64
 /// f(x) = { 4x(1-x) mod 2^64 if x < 2^63
 ///        { 4(2^64 - x)(x - 2^63) mod 2^64 if x >= 2^63
 #[inline(always)]
@@ -233,13 +244,13 @@ fn hltm(x: u64) -> u64 {
 
 /// Hash data and return 256-bit digest in hexadecimal format
 pub fn hash_to_hex(data: &[u8]) -> String {
-    let hash = ChaosFiber256::hash(data);
+    let hash = Fract::hash(data);
     hex::encode(hash)
 }
 
 /// Hash data and return 512-bit digest in hexadecimal format
 pub fn hash512_to_hex(data: &[u8]) -> String {
-    let hash = ChaosFiber256::hash512(data);
+    let hash = Fract::hash512(data);
     hex::encode(hash)
 }
 
@@ -259,7 +270,7 @@ mod tests {
 
     #[test]
     fn test_empty_hash() {
-        let hash = ChaosFiber256::hash(b"");
+        let hash = Fract::hash(b"");
         println!("Empty hash: {}", hex::encode(hash));
         assert_eq!(hash.len(), 32);
         // Note: We don't have test vectors yet since this is a new design
@@ -267,33 +278,33 @@ mod tests {
 
     #[test]
     fn test_hello_world() {
-        let hash = ChaosFiber256::hash(b"hello world");
-        println!("'hello world' hash: {}", hex::encode(hash));
+        let hash = Fract::hash(b"hello cat");
+        println!("'hello cat' hash: {}", hex::encode(hash));
         assert_eq!(hash.len(), 32);
     }
 
     #[test]
     fn test_hello_world_chunked() {
-        let mut hasher = ChaosFiber256::new();
+        let mut hasher = Fract::new();
         hasher.update(b"hello ");
-        hasher.update(b"world");
+        hasher.update(b"cat");
         let hash = hasher.finalize();
 
-        let expected = ChaosFiber256::hash(b"hello world");
+        let expected = Fract::hash(b"hello cat");
         assert_eq!(hash, expected);
     }
 
     #[test]
     fn test_large_data() {
         let data = vec![0x61; 10000]; // 10KB of 'a'
-        let hash = ChaosFiber256::hash(&data);
+        let hash = Fract::hash(&data);
         println!("Large data hash: {}", hex::encode(hash));
         assert_eq!(hash.len(), 32);
     }
 
     #[test]
     fn test_hash512() {
-        let hash = ChaosFiber256::hash512(b"hello world");
+        let hash = Fract::hash512(b"hello world");
         println!("'hello world' hash512: {}", hex::encode(hash));
         assert_eq!(hash.len(), 64);
     }
@@ -304,21 +315,26 @@ mod tests {
         let data1 = b"The quick brown fox jumps over the lazy dog";
         let data2 = b"The quick brown fox jumps over the lazy dof"; // Changed last char
 
-        let hash1 = ChaosFiber256::hash(data1);
-        let hash2 = ChaosFiber256::hash(data2);
+        let hash1 = Fract::hash(data1);
+        let hash2 = Fract::hash(data2);
 
         // Check that hashes are different (very high probability they should be completely different)
         assert_ne!(hash1, hash2);
 
         // Count differing bits
-        let diff_bits = hash1.iter()
+        let diff_bits = hash1
+            .iter()
             .zip(hash2.iter())
             .map(|(a, b)| (a ^ b).count_ones())
             .sum::<u32>();
 
         println!("Avalanche effect: {} bits differ out of 256", diff_bits);
         // Should be close to 128 bits (50% difference) for good avalanche
-        assert!(diff_bits > 100, "Poor avalanche effect: only {} bits differ", diff_bits);
+        assert!(
+            diff_bits > 100,
+            "Poor avalanche effect: only {} bits differ",
+            diff_bits
+        );
     }
 
     #[test]

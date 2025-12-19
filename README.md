@@ -1,10 +1,10 @@
-# ChaosFiber-256
+# FRACT-256
 
 A Hyperchaotic, Quantum-Resistant, Minimalist Cryptographic Hash implementation in Rust.
 
 ## Overview
 
-ChaosFiber-256 (FRACT) is a cryptographic hash function that leverages hyperchaotic dynamical systems on finite modular lattices to achieve provable diffusion, natural quantum resistance, and exceptional performance. By eschewing traditional S-boxes and large constant arrays in favor of coupled chaotic maps with positive Lyapunov exponents, the design achieves cryptographically secure avalanche effects through deterministic chaos.
+FRACT is a cryptographic hash function that leverages hyperchaotic dynamical systems on finite modular lattices to achieve provable diffusion, natural quantum resistance, and exceptional performance. By eschewing traditional S-boxes and large constant arrays in favor of coupled chaotic maps with positive Lyapunov exponents, the design achieves cryptographically secure avalanche effects through deterministic chaos.
 
 ## Features
 
@@ -15,13 +15,25 @@ ChaosFiber-256 (FRACT) is a cryptographic hash function that leverages hyperchao
 - **Hybrid Logistic-Tent Map**: Chaotic primitive on ℤ₂₆₄
 - **Hyperchaotic Lattice**: Four coupled chaotic maps for enhanced diffusion
 
-## Mathematical Foundation
+## Foundation
 
-### Hybrid Logistic-Tent Map (HLTM)
+
+READ WHITEPAPER -> 
+
+
+## Metrics
+
+
+
+## Core
+
+These are core mathematical foundation; not all are stated here; read whitepaper for comprehensive mathematical specification.
+
+## Hybrid Logistic-Tent Map (HLTM)
 
 The core chaotic primitive is defined on ℤ₂₆₄:
 
-```
+```rust
 f(x) = { 4x(1 - x) mod 2^64          if x < 2^63
        { 4(2^64 - x)(x - 2^63) mod 2^64  if x ≥ 2^63
 ```
@@ -32,7 +44,7 @@ This exhibits a Lyapunov exponent λ ≈ 0.693, guaranteeing exponential diverge
 
 For state S = (s₀, s₁, s₂, s₃) ∈ (ℤ₂₆₄)⁴:
 
-```
+```rust
 Φ(S) = {
   s₀' = f(s₀) ⊕ (s₁ ≫ 31) ⊕ (s₃ ≪ 17)
   s₁' = f(s₁) ⊕ (s₂ ≫ 23) ⊕ (s₀ ≪ 11)
@@ -43,6 +55,8 @@ For state S = (s₀, s₁, s₂, s₃) ∈ (ℤ₂₆₄)⁴:
 
 All operations use modular arithmetic with constant-time behavior.
 
+note: whitepaper contain more information on all mathematical impl.
+
 ## Usage
 
 Add this to your `Cargo.toml`:
@@ -52,30 +66,30 @@ Add this to your `Cargo.toml`:
 fract = { path = "path/to/fract" }
 ```
 
-### Basic Usage
+### Usage
 
 ```rust
-use fract::{ChaosFiber256, hash_to_hex};
+use fract::{Fract, hash_to_hex};
 
 // Single-shot hashing (256-bit output)
-let hash = ChaosFiber256::hash(b"hello world");
+let hash = Fract::hash(b"hello cat");
 println!("Hash: {:02x?}", hash);
 
 // Or use the convenience function
-let hex_hash = hash_to_hex(b"hello world");
+let hex_hash = hash_to_hex(b"hello cat");
 println!("Hex: {}", hex_hash);
 
 // 512-bit output for enhanced quantum resistance
-let hash512 = ChaosFiber256::hash512(b"hello world");
+let hash512 = Fract::hash512(b"hello cat");
 println!("512-bit: {:02x?}", hash512);
 ```
 
 ### Incremental Hashing
 
 ```rust
-use fract::ChaosFiber256;
+use fract::Fract;
 
-let mut hasher = ChaosFiber256::new();
+let mut hasher = Fract::new();
 
 // Update with multiple chunks
 hasher.update(b"chunk1");
@@ -89,7 +103,7 @@ println!("Hash: {:02x?}", hash);
 
 ## API Reference
 
-### `ChaosFiber256`
+### `Fract`
 
 The main hasher struct that implements the sponge construction.
 
@@ -116,14 +130,13 @@ The main hasher struct that implements the sponge construction.
 - **Classical Collision Resistance**: 2¹²⁸ (birthday bound on 128-bit capacity)
 - **Quantum Preimage Resistance**: 2²⁵⁶ (with 512-bit output)
 
-### Limitations
+### Future Works.
 
-1. No third-party cryptanalysis has been performed
+1. No third-party cryptanalysis has *yet* been performed
 2. The aggressive round count (R=8) may need increase for conservative deployments
-3. Algebraic attacks using modular arithmetic decomposition have not been thoroughly analyzed
+3. Algebraic attacks using modular arithmetic decomposition have not *yet* been thoroughly analyzed
 
-This implementation is intended for research, education, and niche applications where the novel properties of hyperchaotic hashing are desired.
-## Implementation Details
+## Implementation information.
 
 - **Language**: Pure Rust, `#![no_std]` compatible
 - **Constants**: Only 4 IV words (256 bits of √2)
@@ -162,11 +175,11 @@ cargo run --example demo
 
 ## License
 
-MIT License - See LICENSE file for details
+MIT License
 
 ## Author
 
-@morphym- Morphy Moretti.
+@morphym- Morphy Moretti {Pawit Sahare}.
 
 ## Disclaimer
 

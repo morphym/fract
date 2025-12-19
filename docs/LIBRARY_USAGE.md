@@ -20,17 +20,17 @@ fract = "0.1.0"
 For simple use cases where you have all data available at once:
 
 ```rust
-use fract::ChaosFiber256;
+use fract::Fract;
 
 fn main() {
     let data = b"hello world";
 
     // 256-bit hash (32 bytes)
-    let hash_256 = ChaosFiber256::hash(data);
+    let hash_256 = Fract::hash(data);
     println!("256-bit: {:02x?}", hash_256);
 
     // 512-bit hash for enhanced quantum resistance (64 bytes)
-    let hash_512 = ChaosFiber256::hash512(data);
+    let hash_512 = Fract::hash512(data);
     println!("512-bit: {:02x?}", hash_512);
 }
 ```
@@ -67,12 +67,12 @@ fn main() {
 For streaming data or large files that don't fit in memory:
 
 ```rust
-use fract::ChaosFiber256;
+use fract::Fract;
 use std::fs::File;
 use std::io::{self, Read};
 
 fn hash_reader<R: Read>(mut reader: R) -> io::Result<[u8; 32]> {
-    let mut hasher = ChaosFiber256::new();
+    let mut hasher = Fract::new();
     let mut buffer = vec![0; 8192]; // 8KB buffer
 
     loop {
@@ -101,10 +101,10 @@ fn main() -> io::Result<()> {
 You can update the hasher with data as it becomes available:
 
 ```rust
-use fract::ChaosFiber256;
+use fract::Fract;
 
 fn main() {
-    let mut hasher = ChaosFiber256::new();
+    let mut hasher = Fract::new();
 
     // Process data in chunks
     hasher.update(b"The quick brown ");
@@ -115,14 +115,14 @@ fn main() {
     println!("Hash: {}", hex::encode(hash));
 
     // Result is identical to hashing all at once
-    let single_pass = ChaosFiber256::hash(b"The quick brown fox jumps over the lazy dog");
+    let single_pass = Fract::hash(b"The quick brown fox jumps over the lazy dog");
     assert_eq!(hash, single_pass);
 }
 ```
 
 ## API Reference
 
-### `ChaosFiber256`
+### `Fract`
 
 The main hasher type that implements the sponge construction.
 
@@ -132,7 +132,7 @@ The main hasher type that implements the sponge construction.
 Creates a new hasher instance with the initialization vector.
 
 ```rust
-let hasher = ChaosFiber256::new();
+let hasher = Fract::new();
 ```
 
 **`update(&mut self, data: &[u8])`**
@@ -154,14 +154,14 @@ let hash = hasher.finalize();
 One-shot hashing function for 256-bit output. Convenience method that creates a hasher, updates it with data, and finalizes it.
 
 ```rust
-let hash = ChaosFiber256::hash(b"data");
+let hash = Fract::hash(b"data");
 ```
 
 **`hash512(data: &[u8]) -> [u8; 64]`**
 One-shot hashing function for 512-bit output. Provides enhanced quantum resistance.
 
 ```rust
-let hash = ChaosFiber256::hash512(b"data");
+let hash = Fract::hash512(b"data");
 ```
 
 ### Convenience Functions
@@ -189,12 +189,12 @@ let hex_hash = hash512_to_hex(b"data");
 You can create multiple independent hashers:
 
 ```rust
-use fract::ChaosFiber256;
+use fract::Fract;
 
 fn main() {
     // Different contexts
-    let mut hasher1 = ChaosFiber256::new();
-    let mut hasher2 = ChaosFiber256::new();
+    let mut hasher1 = Fract::new();
+    let mut hasher2 = Fract::new();
 
     // Hash different data
     hasher1.update(b"context1");
@@ -211,11 +211,11 @@ fn main() {
 ### Streaming from Network
 
 ```rust
-use fract::ChaosFiber256;
+use fract::Fract;
 use std::net::TcpStream;
 
 fn hash_from_stream(mut stream: TcpStream) -> io::Result<[u8; 32]> {
-    let mut hasher = ChaosFiber256::new();
+    let mut hasher = Fract::new();
     let mut buffer = vec![0; 4096];
 
     loop {
@@ -233,10 +233,10 @@ fn hash_from_stream(mut stream: TcpStream) -> io::Result<[u8; 32]> {
 ### Hashing with Prefix/Suffix
 
 ```rust
-use fract::ChaosFiber256;
+use fract::Fract;
 
 fn hash_with_prefix_suffix(data: &[u8], prefix: &[u8], suffix: &[u8]) -> [u8; 32] {
-    let mut hasher = ChaosFiber256::new();
+    let mut hasher = Fract::new();
     hasher.update(prefix);
     hasher.update(data);
     hasher.update(suffix);
@@ -367,25 +367,25 @@ Cycles/byte (est. at 3GHz): 42.22
 ### With Standard Types
 
 ```rust
-use fract::ChaosFiber256;
+use fract::Fract;
 
 // Hash a String
 let s = String::from("hello world");
-let hash = ChaosFiber256::hash(s.as_bytes());
+let hash = Fract::hash(s.as_bytes());
 
 // Hash a Vec<u8>
 let vec = vec![1, 2, 3, 4, 5];
-let hash = ChaosFiber256::hash(&vec);
+let hash = Fract::hash(&vec);
 
 // Hash an array
 let arr = [1u8; 32];
-let hash = ChaosFiber256::hash(&arr);
+let hash = Fract::hash(&arr);
 ```
 
 ### In Structs
 
 ```rust
-use fract::ChaosFiber256;
+use fract::Fract;
 
 struct Document {
     content: Vec<u8>,
@@ -394,12 +394,12 @@ struct Document {
 
 impl Document {
     fn new(content: Vec<u8>) -> Self {
-        let hash = ChaosFiber256::hash(&content);
+        let hash = Fract::hash(&content);
         Self { content, hash }
     }
 
     fn verify(&self) -> bool {
-        let computed = ChaosFiber256::hash(&self.content);
+        let computed = Fract::hash(&self.content);
         computed == self.hash
     }
 }
@@ -408,13 +408,13 @@ impl Document {
 ### Error Handling
 
 ```rust
-use fract::ChaosFiber256;
+use fract::Fract;
 use std::fs::File;
 use std::io::{self, Read};
 
 fn hash_file_safe(path: &str) -> Result<[u8; 32], io::Error> {
     let mut file = File::open(path)?;
-    let mut hasher = ChaosFiber256::new();
+    let mut hasher = Fract::new();
     let mut buffer = vec![0; 8192];
 
     loop {
@@ -453,7 +453,7 @@ If hashing is slower than expected:
 
 2. Check that you're not in a debug build
 
-3. For maximum performance, use the convenience functions (`ChaosFiber256::hash()`) or single-pass hashing rather than many small updates
+3. For maximum performance, use the convenience functions (`Fract::hash()`) or single-pass hashing rather than many small updates
 
 4. Consider increasing buffer sizes when reading from files or network
 

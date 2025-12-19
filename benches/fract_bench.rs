@@ -1,5 +1,5 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion, Throughput};
-use fract::ChaosFiber256;
+use fract::Fract;
 
 fn bench_throughput(c: &mut Criterion) {
     let mut group = c.benchmark_group("throughput");
@@ -9,7 +9,7 @@ fn bench_throughput(c: &mut Criterion) {
 
         group.throughput(Throughput::Bytes(*size as u64));
         group.bench_with_input(format!("hash_{}_bytes", size), &data, |b, data| {
-            b.iter(|| ChaosFiber256::hash(black_box(data)));
+            b.iter(|| Fract::hash(black_box(data)));
         });
     }
 
@@ -24,7 +24,7 @@ fn bench_latency(c: &mut Criterion) {
         let data = vec![0x61u8; *size];
 
         group.bench_with_input(format!("hash_{}_bytes_latency", size), &data, |b, data| {
-            b.iter(|| ChaosFiber256::hash(black_box(data)));
+            b.iter(|| Fract::hash(black_box(data)));
         });
     }
 
@@ -42,18 +42,15 @@ fn bench_incremental(c: &mut Criterion) {
         let num_chunks = total_size / chunk_size;
 
         group.throughput(Throughput::Bytes(total_size as u64));
-        group.bench_function(
-            format!("incremental_{}_byte_chunks", chunk_size),
-            |b| {
-                b.iter(|| {
-                    let mut hasher = ChaosFiber256::new();
-                    for chunk in data.chunks(*chunk_size) {
-                        hasher.update(black_box(chunk));
-                    }
-                    black_box(hasher.finalize())
-                });
-            },
-        );
+        group.bench_function(format!("incremental_{}_byte_chunks", chunk_size), |b| {
+            b.iter(|| {
+                let mut hasher = Fract::new();
+                for chunk in data.chunks(*chunk_size) {
+                    hasher.update(black_box(chunk));
+                }
+                black_box(hasher.finalize())
+            });
+        });
     }
 
     group.finish();
@@ -67,7 +64,7 @@ fn bench_512bit(c: &mut Criterion) {
 
         group.throughput(Throughput::Bytes(*size as u64));
         group.bench_with_input(format!("hash512_{}_bytes", size), &data, |b, data| {
-            b.iter(|| ChaosFiber256::hash512(black_box(data)));
+            b.iter(|| Fract::hash512(black_box(data)));
         });
     }
 
