@@ -18,11 +18,12 @@ FRACT is a cryptographic hash function that leverages hyperchaotic dynamical sys
 ## Foundation
 
 
-READ WHITEPAPER -> 
+READ WHITEPAPER -> https://www.pawit.co/whitepapers/fract-whitepaper.pdf
 
 
 ## Metrics
 
+<img width="1077" height="388" alt="image" src="https://github.com/user-attachments/assets/24918d0a-a666-41c0-922e-07eeccc9b114" />
 
 
 ## Core
