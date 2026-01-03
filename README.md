@@ -9,16 +9,21 @@ FRACT is a cryptographic hash function that leverages hyperchaotic dynamical sys
 ## Features
 
 - **Minimal Design**: Only 8 arithmetic operations per round, zero lookup tables
-- **High Performance**: Targeting ~4 cycles/byte on commodity hardware
+- **High Performance**: Targeting ~4 cycles/byte on standard hardware
 - **Quantum Resistant**: Non-algebraic structure resists quantum algorithms
 - **Sponge Construction**: 256-bit state with 128-bit rate and capacity
 - **Hybrid Logistic-Tent Map**: Chaotic primitive on ℤ₂₆₄
 - **Hyperchaotic Lattice**: Four coupled chaotic maps for enhanced diffusion
+- *Deterministic*: All operations are fixed-point integer arithmetic and rust wrapping arithmetic
+                   enforced hash stay determinisitc accross all machines.
 
 ## Foundation
 
 
 READ WHITEPAPER -> https://www.pawit.co/whitepapers/fract-whitepaper.pdf
+
+:: license is ``creative commons attribution 4.0 international``.
+Author: Pawit Sahare ( @morphym ).
 
 
 ## Metrics
@@ -124,51 +129,7 @@ note: whitepaper contain more information on all mathematical impl.
 
 ## Usage
 
-Run ``cargo add fract`` to have latest version added
-
-OR
-
-Manually add this to your `Cargo.toml`:
-
-
-```toml
-[dependencies]
-fract = "0.1.0"
-```
-
-
-```rust
-use fract::{Fract, hash_to_hex};
-
-// Single-shot hashing (256-bit output)
-let hash = Fract::hash(b"hello cat");
-println!("Hash: {:02x?}", hash);
-
-// Or use the convenience function
-let hex_hash = hash_to_hex(b"hello cat");
-println!("Hex: {}", hex_hash);
-
-// 512-bit output for enhanced quantum resistance
-let hash512 = Fract::hash512(b"hello cat");
-println!("512-bit: {:02x?}", hash512);
-```
-
-### Incremental Hashing
-
-```rust
-use fract::Fract;
-
-let mut hasher = Fract::new();
-
-// Update with multiple chunks
-hasher.update(b"chunk1");
-hasher.update(b"chunk2");
-hasher.update(b"chunk3");
-
-// Finalize and get the hash
-let hash = hasher.finalize();
-println!("Hash: {:02x?}", hash);
-```
+Read: https://github.com/morphym/fract/blob/master/usage.md
 
 ## API Reference
 
@@ -191,7 +152,7 @@ The main hasher struct that implements the sponge construction.
 
 ## Security Considerations
 
-**WARNING**: This is an experimental implementation of a novel cryptographic design. The security claims in the whitepaper have not been independently verified through third-party cryptanalysis.
+**NOTE**: This is an experimental implementation of a novel cryptographic design. The security claims in the whitepaper have not yet been independently verified through third-party cryptanalysis.
 
 ### Claims
 
@@ -250,6 +211,8 @@ MIT License
 
 @morphym- Morphy Moretti {Pawit Sahare}.
 
-## Disclaimer
+### Citation
+```
+Pawit, S. (2025). FRACT- A Hyperchaotic, Quantum Resistant, Fast Cryptographic Hash. Pawit Sahare. https://doi.org/10.5281/zenodo.17983496
+```
 
-This software is provided "as is", without warranty of any kind. Use at your own risk for security-sensitive applications. Always consult with a cryptographer before using novel cryptographic primitives in production.
