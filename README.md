@@ -215,6 +215,11 @@ MIT License
 
 ### Citation
 ```
-Pawit, S. (2025). FRACT- A Hyperchaotic, Quantum Resistant, Fast Cryptographic Hash. Pawit Sahare. https://doi.org/10.5281/zenodo.17983496
+Pawit, S. (2025). FRACT- A Hyperchaotic, Quantum Resistant, Fast Cryptographic Hash.
+  Pawit Sahare. 
+https://doi.org/10.5281/zenodo.17983496
+
+https://pawit.co/works/fract
+.
 ```
 
