@@ -22,7 +22,8 @@ FRACT is a cryptographic hash function that leverages hyperchaotic dynamical sys
 
 READ WHITEPAPER -> https://www.pawit.co/whitepapers/fract-whitepaper.pdf
 
-:: license is ``creative commons attribution 4.0 international``.
+*:*: license is ``creative commons attribution 4.0 international``
+<br> </br>
 Author: Pawit Sahare ( @morphym ).
 
 
@@ -76,7 +77,8 @@ To run local benchmark in your machine
 
 Result: On a 4 vCPU machine: 
 
-```princee@princee:~$ fract bench
+```bash
+princee@princee:~$ fract bench
 === Fract Benchmark ===
 Data size: 1048576 bytes
 Iterations: 100
