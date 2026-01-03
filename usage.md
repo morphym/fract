@@ -1,4 +1,4 @@
-https://pawit.co/whitepapers/fract
+whitepaper: https://pawit.co/whitepapers/fract
 
 
 ## Usage
