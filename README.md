@@ -26,6 +26,70 @@ READ WHITEPAPER -> https://www.pawit.co/whitepapers/fract-whitepaper.pdf
 <img width="1077" height="388" alt="image" src="https://github.com/user-attachments/assets/24918d0a-a666-41c0-922e-07eeccc9b114" />
 
 
+### >
+
+Install binary
+
+```cargo install fract```
+
+Then, Enjoy a, Fast. Minimal. Hyperchaotic, Quantum-Resistant, Hash.
+
+```bash
+princee@princee:~$ fract
+
+    ╔══════════════════════════════════════════════════════════════╗
+    ║                                                              ║
+    ║    ░██████╗░█████╗░░█████╗░██╗░░██╗░█████╗░████████╗░█████╗░  ║
+    ║    ██╔════╝██╔══██╗██╔══██╗██║░░██║██╔══██╗╚══██╔══╝██╔══██╗  ║
+    ║    █████╗░░███████║██║░░╚═╝███████║███████║░░░██║░░░██║░░╚═╝  ║
+    ║    ██╔══╝░░██╔══██║██║░░██╗██╔══██║██╔══██║░░░██║░░░██║░░██╗  ║
+    ║    ██║░░░░░██║░░██║╚█████╔╝██║░░██║██║░░██║░░░██║░░░╚█████╔╝  ║
+    ║    ╚═╝░░░░░╚═╝░░╚═╝░╚════╝░╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░  ║
+    ║                                                              ║
+    ║    Hyperchaotic · Quantum-Resistant · Fast Cryptographic Hash ║
+    ║                                                              ║
+    ║    Author: @morphym                                          ║
+    ║    Version: 0.1.0                                            ║
+    ║                                                              ║
+    ╚══════════════════════════════════════════════════════════════╝
+
+Usage: fract [OPTIONS] [FILE]...
+       fract bench [OPTIONS]
+
+Run 'fract --help' for detailed usage information.
+princee@princee:~$ fract cat 
+c3405751cd163e953f04744da9eb4bd411930a2b3de066c3c9e2ca905b33aa99  cat
+princee@princee:~$ 
+
+```
+
+#### Benchmark
+
+To run local benchmark in your machine
+
+```fract bench```
+
+Result: On a 4 vCPU machine: 
+
+```princee@princee:~$ fract bench
+=== Fract Benchmark ===
+Data size: 1048576 bytes
+Iterations: 100
+Mode: 256-bit
+Method: single-pass
+
+Total time: 1.439969279s
+Throughput: 69.45 MiB/s
+Last hash: 60e1a1235112e7d3
+
+=== Additional Stats ===
+Bytes processed: 104857600
+Nanoseconds per byte: 13.73
+Cycles/byte (est. at 3GHz): 41.20
+princee@princee:~$ 
+
+```
+
 ## Core
 
 These are core mathematical foundation; not all are stated here; read whitepaper for comprehensive mathematical specification.
@@ -60,14 +124,18 @@ note: whitepaper contain more information on all mathematical impl.
 
 ## Usage
 
-Add this to your `Cargo.toml`:
+Run ``cargo add fract`` to have latest version added
+
+OR
+
+Manually add this to your `Cargo.toml`:
+
 
 ```toml
 [dependencies]
-fract = { path = "path/to/fract" }
+fract = "0.1.0"
 ```
 
-### Usage
 
 ```rust
 use fract::{Fract, hash_to_hex};
