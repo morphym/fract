@@ -75,7 +75,72 @@ To run local benchmark in your machine
 
 ```fract bench```
 
-Result: On a 4 vCPU machine: 
+
+Result: At a ARM 4vCPU aprx 3GHZ result are very good.
+
+```ubuntu@ip-172-31-21-181:/tmp$ lscpu
+Architecture:                aarch64
+  CPU op-mode(s):            32-bit, 64-bit
+  Byte Order:                Little Endian
+CPU(s):                      4
+  On-line CPU(s) list:       0-3
+Vendor ID:                   ARM
+  Model name:                Neoverse-N1
+    Model:                   1
+    Thread(s) per core:      1
+    Core(s) per socket:      4
+    Socket(s):               1
+    Stepping:                r3p1
+    BogoMIPS:                243.75
+    Flags:                   fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimd
+                             hp cpuid asimdrdm lrcpc dcpop asimddp
+Caches (sum of all):         
+  L1d:                       256 KiB (4 instances)
+  L1i:                       256 KiB (4 instances)
+  L2:                        4 MiB (4 instances)
+  L3:                        32 MiB (1 instance)
+NUMA:                        
+  NUMA node(s):              1
+  NUMA node0 CPU(s):         0-3
+Vulnerabilities:             
+  Gather data sampling:      Not affected
+  Ghostwrite:                Not affected
+  Indirect target selection: Not affected
+  Itlb multihit:             Not affected
+  L1tf:                      Not affected
+  Mds:                       Not affected
+  Meltdown:                  Not affected
+  Mmio stale data:           Not affected
+  Reg file data sampling:    Not affected
+  Retbleed:                  Not affected
+  Spec rstack overflow:      Not affected
+  Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl
+  Spectre v1:                Mitigation; __user pointer sanitization
+  Spectre v2:                Mitigation; CSV2, BHB
+  Srbds:                     Not affected
+  Tsa:                       Not affected
+  Tsx async abort:           Not affected
+  Vmscape:                   Not affected
+ubuntu@ip-172-31-21-181:/tmp$ fract bench
+=== Fract Benchmark ===
+Data size: 1048576 bytes
+Iterations: 100
+Mode: 256-bit
+Method: single-pass
+
+Total time: 612.685244ms
+Throughput: 163.22 MiB/s
+Last hash: 60e1a1235112e7d3
+
+=== Additional Stats ===
+Bytes processed: 104857600
+Nanoseconds per byte: 5.84
+Cycles/byte (est. at 3GHz): 17.53
+ubuntu@ip-172-31-21-181:/tmp$ 
+
+```
+
+Result: On a 4 2.25GHZ vCPU machine: 
 
 ```bash
 princee@princee:~$ fract bench
@@ -96,6 +161,8 @@ Cycles/byte (est. at 3GHz): 41.20
 princee@princee:~$ 
 
 ```
+
+
 
 ## Core
 
