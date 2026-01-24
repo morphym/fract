@@ -1,4 +1,4 @@
-<img width="5464" height="3072" alt="image" src="https://github.com/user-attachments/assets/282e2891-7a09-4fd8-86d6-7bcba3b704d7" /># FRACT-256
+# FRACT-256
 
 A Hyperchaotic, Quantum-Resistant, Minimalist Cryptographic Hash implementation in Rust.
 
