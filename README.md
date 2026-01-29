@@ -76,7 +76,7 @@ To run local benchmark in your machine
 ```fract bench```
 
 
-Result: At a ARM 4vCPU aprx 3GHZ result are very good.
+Result: At a ARM 4vCPU aprx 3GHZ result are unexpectdly better.
 
 
 https://github.com/user-attachments/assets/327b1417-5fc3-4ba8-8e94-c1f436267648
@@ -213,7 +213,7 @@ The main hasher struct that implements the sponge construction.
 Target performance characteristics:
 
 - **Throughput**: ~4 cycles/byte
-- **Latency**: 48 cycles for 16-byte input
+- **Latency**: 48 cycles for 16-byte input on 4vCPU 2.25GHZ, 19/20 cycles for arm based 4vCPU 3GHZ.
 - **Code Size**: <1 KB
 - **Vectorization**: Four u64 lanes enable SIMD execution
 
