@@ -32,6 +32,11 @@ Author: Pawit Sahare ( @morphym ).
 <img width="1077" height="388" alt="image" src="https://github.com/user-attachments/assets/24918d0a-a666-41c0-922e-07eeccc9b114" />
 
 
+#### notes:
+
+There are modification made to have some states to be public; new function 'from state' 
+all these are for https://github.com/morphym/zk-disorder ; these are made on branch 'zk-disorder'.
+
 ### >
 
 Install binary
@@ -222,4 +227,3 @@ https://doi.org/10.5281/zenodo.17983496
 https://pawit.co/works/fract
 .
 ```
-
