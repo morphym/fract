@@ -1,6 +1,6 @@
 [package]
 name = "fract"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 authors = ["@morphym"]
 description = "A Hyperchaotic, Quantum-Resistant, Minimalist Cryptographic Hash"
