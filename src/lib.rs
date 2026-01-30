@@ -22,7 +22,7 @@ const IV: [u64; 4] = [
 #[derive(Clone, Debug)]
 pub struct Fract {
     /// Internal state vector (4 × u64)
-    state: [u64; 4],
+    pub state: [u64; 4], // state public for zk-disorder
     /// Buffer for absorbing data
     buffer: [u8; RATE],
     /// Number of bytes currently in buffer
@@ -79,6 +79,17 @@ impl Fract {
         if !bytes.is_empty() {
             self.buffer[..bytes.len()].copy_from_slice(bytes);
             self.buffer_len = bytes.len();
+        }
+    }
+
+    pub fn from_state(state: [u64; 4]) -> Self {
+        // This is only for zk-disorder.
+        Self {
+            state,
+            buffer: [0; RATE],
+            buffer_len: 0,
+            total_len: 0,
+            finalized: false,
         }
     }
 
@@ -155,7 +166,8 @@ impl Fract {
 
     /// Applies one round of the hyperchaotic lattice transformation Φ
     #[inline(always)]
-    fn apply_phi(&mut self) {
+    pub fn apply_phi(&mut self) {
+        // make thi sstate public for zk-disorder.
         let [s0, s1, s2, s3] = self.state;
 
         // Hybrid Logistic-Tent Map f(x) on Z_2^64
