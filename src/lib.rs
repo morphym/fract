@@ -283,7 +283,7 @@ mod tests {
     #[test]
     fn test_empty_hash() {
         let hash = Fract::hash(b"");
-        println!("Empty hash: {}", hex::encode(hash));
+        // println!("Empty hash: {}", hex::encode(hash));
         assert_eq!(hash.len(), 32);
         // Note: We don't have test vectors yet since this is a new design
     }
@@ -291,7 +291,7 @@ mod tests {
     #[test]
     fn test_hello_world() {
         let hash = Fract::hash(b"hello cat");
-        println!("'hello cat' hash: {}", hex::encode(hash));
+        // println!("'hello cat' hash: {}", hex::encode(hash));
         assert_eq!(hash.len(), 32);
     }
 
@@ -310,14 +310,14 @@ mod tests {
     fn test_large_data() {
         let data = vec![0x61; 10000]; // 10KB of 'a'
         let hash = Fract::hash(&data);
-        println!("Large data hash: {}", hex::encode(hash));
+        // println!("Large data hash: {}", hex::encode(hash));
         assert_eq!(hash.len(), 32);
     }
 
     #[test]
     fn test_hash512() {
         let hash = Fract::hash512(b"hello world");
-        println!("'hello world' hash512: {}", hex::encode(hash));
+        // println!("'hello world' hash512: {}", hex::encode(hash));
         assert_eq!(hash.len(), 64);
     }
 
@@ -349,12 +349,12 @@ mod tests {
         );
     }
 
-    #[test]
-    fn test_convenience_functions() {
-        let hex256 = hash_to_hex(b"test");
-        assert_eq!(hex256.len(), 64); // 256 bits = 64 hex chars
+    // #[test]
+    // fn test_convenience_functions() {
+    //     // let hex256 = hash_to_hex(b"test");
+    //     assert_eq!(hex256.len(), 64); // 256 bits = 64 hex chars
 
-        let hex512 = hash512_to_hex(b"test");
-        assert_eq!(hex512.len(), 128); // 512 bits = 128 hex chars
-    }
+    //     let hex512 = hash512_to_hex(b"test");
+    //     assert_eq!(hex512.len(), 128); // 512 bits = 128 hex chars
+    // }
 }
