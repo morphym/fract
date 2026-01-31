@@ -4,7 +4,7 @@ cargo-features = ["edition2024"]
 
 [package]
 name = "fract"
-version = "3.2.3"
+version = "1.2.3"
 edition = "2024"
 authors = ["@morphym"]
 description = "A Hyperchaotic, Quantum-Resistant, Minimalist Cryptographic Hash"
