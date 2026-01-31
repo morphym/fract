@@ -4,7 +4,7 @@ cargo-features = ["edition2024"]
 
 [package]
 name = "fract"
-version = "0.1.3"
+version = "3.2.3"
 edition = "2024"
 authors = ["@morphym"]
 description = "A Hyperchaotic, Quantum-Resistant, Minimalist Cryptographic Hash"
@@ -19,7 +19,5 @@ path = "src/lib.rs"
 name = "fract"
 path = "src/main.rs"
 
-[dependencies]
-hex = "0.4.3"
 
-# zk-disorder. won't have redudant depcs check 0.1.1.
+# zk-disorder. won't have redudant depcs check 0.1.1. it's literaly need nothing else

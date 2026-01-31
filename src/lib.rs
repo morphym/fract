@@ -254,17 +254,17 @@ fn hltm(x: u64) -> u64 {
     }
 }
 
-/// Hash data and return 256-bit digest in hexadecimal format
-pub fn hash_to_hex(data: &[u8]) -> String {
-    let hash = Fract::hash(data);
-    hex::encode(hash)
-}
+// /// Hash data and return 256-bit digest in hexadecimal format
+// pub fn hash_to_hex(data: &[u8]) -> String {
+//     let hash = Fract::hash(data);
+//     hex::encode(hash)
+// }
 
-/// Hash data and return 512-bit digest in hexadecimal format
-pub fn hash512_to_hex(data: &[u8]) -> String {
-    let hash = Fract::hash512(data);
-    hex::encode(hash)
-}
+// /// Hash data and return 512-bit digest in hexadecimal format
+// pub fn hash512_to_hex(data: &[u8]) -> String {
+//     let hash = Fract::hash512(data);
+//     hex::encode(hash)
+// } -> redudant for this branch.
 
 #[cfg(test)]
 mod tests {
