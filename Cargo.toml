@@ -15,13 +15,4 @@ path = "src/lib.rs"
 name = "fract"
 path = "src/main.rs"
 
-[dependencies]
-hex = "0.4"
-clap = { version = "4.5", features = ["derive"] }
-
-[dev-dependencies]
-criterion = "0.5"
-
-[[bench]]
-name = "fract_bench"
-harness = false
+# zk-disorder. won't have redudant depcs check 0.1.1.
